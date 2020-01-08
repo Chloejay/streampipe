@@ -1,0 +1,8 @@
+{
+    "namespace": "record",
+    "type": "record",
+    "name": "DefaultEventRecord",
+    "fields": [
+        { "name": "test", "type": "string","default": null }
+    ]
+}

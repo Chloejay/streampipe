@@ -1,0 +1,17 @@
+server:
+ - host: localhost
+ - user: root
+ - passwd: password
+ - db: kafka_test
+
+broker:
+ - host: localhost
+ - port: 9092 
+
+consumer:
+ - topic: topictest
+ - consumergroup: testv1
+
+avro:
+ - schema: DefaultEventRecord.avsc
+
