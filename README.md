@@ -7,8 +7,9 @@ pyenv global 3.6.0
 
 set up kafka, zookeeper and get it run </br>
 #test 
-#!/streampipe/kafka/kafkatest
 ```
+#!/streampipe/kafka/kafkatest 
+
 kafka-server-start /usr/local/etc/kafka/server.properties
 
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic kafkatest
