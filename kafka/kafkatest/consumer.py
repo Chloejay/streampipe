@@ -1,3 +1,4 @@
+# !/streampipe/kafka/kafkatest
 from kafka import KafkaConsumer
 from config.config import Configuration
 import pymysql
@@ -11,9 +12,7 @@ import time
 import sys
 import os
 
-#TODO old consumer file 
 
-# !kafka-dev/kafka 
 conf = Configuration("kafkatest/config/default.yml")
 host,user,passwd,db = conf.getMySQLmetadata()
 kafka_host,kafka_port = conf.getBrokermetadata()
@@ -35,7 +34,6 @@ def run():
 
         conn = pymysql.connect(host,user,passwd,db)
         cursor =conn.cursor()
-        #for message is bytes format, need to use avro to parse dataset, TODO
         cursor.execute("INSERT INTO whatever (stations) values (%s)"%(message.offset))
         # cursor.execute("INSERT INTO whatever (test) values (%s)"%(data))
 
