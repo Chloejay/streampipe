@@ -9,9 +9,9 @@ broker:
  - port: 9092 
 
 consumer:
- - topic: topictest
- - consumergroup: testv1
+ - topic: kafkatesting
+ - consumergroup: kafkatesting
 
 avro:
- - schema: DefaultEventRecord.avsc
+ - schema: user.avsc
 

@@ -1,0 +1,10 @@
+{
+	"namespace": "test1",
+	"type": "record",
+	"name": "User",
+	"fields": [
+		{"name": "testing", "type": "string"},
+		{"name": "favorite_number",  "type": ["int", "null"]},
+		{"name": "favorite_color", "type": ["string", "null"]}
+	]
+}
