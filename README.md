@@ -29,8 +29,10 @@ then run spark streaming for data processing
  --packages org.apache.spark:spark-streaming-kafka-0-8-assembly_2.11:2.4.3  \
  kafkatest/kafka_spark_df.py localhost:2181 sparktest
  ```
-#linking the artifact
+
 ```
+#linking the artifact (optionally) 
+
 $ /usr/local/spark-2.4.4-bin-hadoop2.7/bin/spark-submit  --master local[2] \
 --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 kafkatest/kafka_spark_df.py
 ```
