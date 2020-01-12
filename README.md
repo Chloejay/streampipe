@@ -29,10 +29,19 @@ then run spark streaming for data processing
  --packages org.apache.spark:spark-streaming-kafka-0-8-assembly_2.11:2.4.3  \
  kafkatest/kafka_spark_df.py localhost:2181 sparktest
  ```
- optional method for BD connection
+#linking the artifact
+```
+$ /usr/local/spark-2.4.4-bin-hadoop2.7/bin/spark-submit  --master local[2] \
+--packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 kafkatest/kafka_spark_df.py
+```
+
+ optionally use Kafka Connect (out of message broker) 
  ```
 #connect with JDBC conncetor 
 $ bin/schema-registry-start etc/schema-registry/schema-registry.properties 
-$ bin/connect-standalone etc/schema-registry/connect-avro-standalone.properties etc/kafka-connect-jdbc/sink-quickstart-sqlite.properties
-$ bin/kafka-avro-console-producer --broker-list localhost:9092 --topic kafkatesting --property value.schema
+$ bin/connect-standalone etc/schema-registry/\
+connect-avro-standalone.properties etc/kafka-connect-jdbc/\
+sink-quickstart-sqlite.properties
+$ bin/kafka-avro-console-producer --broker-list \
+localhost:9092 --topic kafkatesting --property value.schema
 ```
