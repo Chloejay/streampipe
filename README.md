@@ -1,7 +1,8 @@
 # streampipe
-real time data pipeline with kafka and spark.  
+real time data pipeline with kafka and spark, mysql and redis. 
 
 ```
+$ pyenv virtualenv 3.6.0 
 $ pyenv global 3.6.0
 ```
 
