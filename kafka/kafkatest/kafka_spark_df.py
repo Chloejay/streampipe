@@ -1,26 +1,36 @@
 #!streampipe/kafka/kafkatest 
-from __future__ import print_function
+
 import sys
 from pyspark import SparkContext
 from pyspark import SparkConf
 from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
-from pyspark.sql import Row, DataFrame, SQLContext
-from pyspark.sql import SparkSession 
-
+from pyspark.sql import Row, DataFrame, SQLContext, SparkSession 
+from pyspark.sql.functions import col, desc, upper, coalesce, count 
+from pyspark.sql.types import StructField, StructType, StringType,IntegerType #schema 
 
 # https://github.com/apache/spark/blob/v2.2.1/examples/src/main/python/streaming/direct_kafka_wordcount.py#L48
 def process(rdd):
     try:
         rowRdd = rdd.map(lambda w: Row(color=w[0],num=w[1]))
-        df = sqlContext.createDataFrame(rowRdd)
-        df.show(n=5) 
+        df = sqlContext.createDataFrame([rowRdd]).cache() 
+        # df.where(col('favorite_color'='yellow')).show(n=5) 
+        df.orderBy(col('favorite_color').desc())\
+        .select(upper(coalesce(col('favorite_color')))\
+        .alias('fave'))\
+        .show(5)  
+        df.groupby(col('favorite_color'))\
+        .agg(count(col('num')).alias('count')).show() 
         df.createOrReplaceTempView("count") 
+        # df.printSchema() 
         df_count= sqlContext.sql("select SUM(num) as total from count")
         df_count.show() 
 
     except Exception as e:
         print('error is {}'.format(e)) 
+
+
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
@@ -29,6 +39,7 @@ if __name__ == '__main__':
 
     sc = SparkContext.getOrCreate() 
     sqlContext = SQLContext(sc)
+
     ssc = StreamingContext(sc, 10)
     zkQuorum, topic = sys.argv[1:]
     kvs = KafkaUtils.createStream(ssc, zkQuorum, "spark-streaming-consumer", {topic: 1})
@@ -43,6 +54,8 @@ if __name__ == '__main__':
     ssc.start()
     ssc.awaitTermination() 
 
+
+# TODO
 # https://github.com/apache/spark/blob/master/docs/structured-streaming-kafka-integration.md
 # create kafka source 
 # spark = SparkSession \
