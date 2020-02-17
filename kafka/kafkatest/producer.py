@@ -8,6 +8,9 @@ import avro.schema
 import avro.io
 from avro.io import DatumWriter
 import random 
+import requests 
+
+#implement with REST API with confluentic kafka rest https://github.com/confluentinc/kafka-rest 
 
 def create_producer(topic): 
     # producer = KafkaProducer(bootstrap_servers=['localhost:9092']) 
