@@ -1,7 +1,7 @@
 {
-	"namespace": "test1",
+	"namespace": "test",
 	"type": "record",
-	"name": "User",
+	"name": "avrotest",
 	"fields": [
 		{"name": "testing", "type": "string"},
 		{"name": "favorite_number",  "type": ["int", "null"]},

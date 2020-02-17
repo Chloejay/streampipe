@@ -13,5 +13,5 @@ consumer:
  - consumergroup: kafkatesting
 
 avro:
- - schema: user.avsc
+ - schema: avrotest.avsc
 

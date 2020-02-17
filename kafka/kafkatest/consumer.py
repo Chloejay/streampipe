@@ -1,6 +1,5 @@
 # !/streampipe/kafka/kafkatest
 
-
 from kafka import KafkaConsumer
 from config.config import Configuration
 import pymysql
@@ -17,16 +16,17 @@ conf = Configuration("kafkatest/config/default.yml")
 host,user,passwd,db = conf.getMySQLmetadata()
 kafka_host,kafka_port = conf.getBrokermetadata()
 topic,consumergroup = conf.getConsumermetadata()
-schema_path = os.path.join('kafkatest/config/',conf.getAvroSchema()) 
+schema_avro_path = os.path.join('kafkatest/config/',conf.getAvroSchema()) 
 broker_config=kafka_host+":"+str(kafka_port)
-schema = avro.schema.Parse(open(schema_path, "r").read())
+schema = avro.schema.parse(open(schema_avro_path).read())
 
 
-
-def run(topic):
+def consume_records(topic):
     consumer = KafkaConsumer(bootstrap_servers=[broker_config],
                                 auto_offset_reset='earliest',
-                                enable_auto_commit= True)
+                                enable_auto_commit= True
+                                # group_id='group1'
+                                )
 
     consumer.subscribe([topic]) 
 
@@ -37,7 +37,7 @@ def run(topic):
         val = reader.read(decoder)
         test_val=list(val.values()) 
         print(test_val)
-
+        #connect to RDBMS 
         conn = pymysql.connect(host,user,passwd,db)
         cursor =conn.cursor()
         cursor.execute("""CREATE TABLE IF NOT EXISTS kafkav1 (id int auto_increment primary key, \
@@ -48,13 +48,6 @@ def run(topic):
         logging.info('send test data to mysql sink')
     conn.close() 
 
-# schema = avro.schema.parse(open(schemaAvro).read())
-# bytes_reader = io.BytesIO(message.value)
-# decoder = avro.io.BinaryDecoder(bytes_reader)
-# reader = avro.io.DatumReader(schema)
-# user1 = reader.read(decoder)
-# insertIntoDatabase(bytes_reader) 
-
 if __name__=='__main__':
-    test= "kafkatesting"
-    run(test)  
+    topic= "kafkatesting"
+    consume_records(topic)
