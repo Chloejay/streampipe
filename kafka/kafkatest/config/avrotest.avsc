@@ -1,5 +1,5 @@
 {
-	"namespace": "test",
+	"namespace": "avro",
 	"type": "record",
 	"name": "avrotest",
 	"fields": [

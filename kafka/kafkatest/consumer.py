@@ -1,11 +1,12 @@
-# !/streampipe/kafka/kafkatest
+# !/streampipe/kafka/
 
 from kafka import KafkaConsumer
 from config.config import Configuration
 import pymysql
 import io
 import avro.schema
-import avro.io
+import avro.io 
+from avro.io import DatumReader 
 import traceback
 import sys
 import os
@@ -23,32 +24,32 @@ def consume_records(topic):
     consumer = KafkaConsumer(bootstrap_servers=[broker_config],
                                 auto_offset_reset='earliest', #read all, default is latest 
                                 enable_auto_commit= True, 
-                                group_id='test-consumer-group', #to avoid message be consumed more than once 
+                                # group_id='test-consumer-group', #to avoid message be consumed more than once 
                                 consumer_timeout_ms= 120 
                                 )
 
     consumer.subscribe([topic]) 
 
-    for msg in consumer:
-        bytes_reader = io.BytesIO(msg.value)
+    for _msg in consumer:
+        bytes_reader = io.BytesIO(_msg.value)
         decoder = avro.io.BinaryDecoder(bytes_reader)
-        reader = avro.io.DatumReader(schema)
+        reader = DatumReader(schema)
         val = reader.read(decoder)
         test_val=list(val.values()) 
-        print(test_val)
+        logging.info(test_val) 
 
         #connect to RDBMS 
-        conn = pymysql.connect(host,user,passwd,db)
+        conn = pymysql.connect(host, user, passwd, db)
         cursor =conn.cursor()
-        cursor.execute("""CREATE TABLE IF NOT EXISTS kafkav1 (id int auto_increment primary key, \
+        cursor.execute ("""CREATE TABLE IF NOT EXISTS kafkav1 (id int auto_increment primary key, \
         testing text, favorite_color text, favorite_number int)""")
-        cursor.execute("""INSERT INTO kafkav1(testing,favorite_number,favorite_color) values \
-        ('%s', %s, '%s')"""%(test_val[0],test_val[1],test_val[2])) 
+        cursor.execute ("""INSERT INTO kafkav1(testing,favorite_number,favorite_color) values \
+        ('%s', %s, '%s')"""% (test_val[0],test_val[1],test_val[2])) 
         conn.commit()
-        
+        conn.close()
         logging.info('send test data to mysql sink')
-        conn.close() 
+         
 
 if __name__=='__main__':
-    topic= "kafkatesting"
+    topic= "avrofix"
     consume_records(topic)

@@ -9,8 +9,8 @@ broker:
  - port: 9092 
 
 consumer:
- - topic: kafkatesting
- - consumergroup: kafkatesting
+ - topic: avrofix
+ - consumergroup: test-consumer-group
 
 avro:
  - schema: avrotest.avsc
