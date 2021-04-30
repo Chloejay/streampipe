@@ -44,7 +44,7 @@ slackclient==2.5.0
 torch==1.0.1.post2
 torchvision==0.2.2.post3
 tweepy==3.8.0
-urllib3==1.25.7
+urllib3==1.25.8
 virtualenv==16.7.9
 wrapt==1.11.1
 yarl==1.4.2
