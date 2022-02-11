@@ -24,7 +24,7 @@ mysql-connector-python==8.0.18
 numpy==1.16.2
 oauthlib==3.1.0
 pipenv==2018.11.26
-protobuf==3.1.0
+protobuf==3.15.0
 py-mysql==1.0
 py4j==0.10.7
 pycares==3.1.0
