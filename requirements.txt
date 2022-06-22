@@ -21,7 +21,7 @@ mccabe==0.6.1
 multidict==4.7.3
 mysql-connector==2.2.9
 mysql-connector-python==8.0.18
-numpy==1.16.2
+numpy==1.22.0
 oauthlib==3.1.0
 pipenv==2018.11.26
 protobuf==3.1.0
